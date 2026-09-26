@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ECS/EntityId.h"
+#include "ECS/DEPRECATED_EntityId.h"
 
 class IComponentPool
 {
 public:
 	virtual ~IComponentPool() = default;
 
-	virtual void RemoveEntity(EntityId entity) = 0;
-	virtual void CopyComponent(EntityId from, EntityId to) = 0;
+	virtual void RemoveEntity(DEPRECATED_EntityId entity) = 0;
+	virtual void CopyComponent(DEPRECATED_EntityId from, DEPRECATED_EntityId to) = 0;
 };

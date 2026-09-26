@@ -32,7 +32,7 @@ void ExtractRenderQueue(const ComponentPool<TransformComponent>&  transforms,
                         RenderQueue&                              out)
 {
 	renderables.ForEach(
-	    [&](EntityId entity, const RenderableComponent& renderable)
+	    [&](DEPRECATED_EntityId entity, const RenderableComponent& renderable)
 	    {
 		    const auto* transform = transforms.Get(entity);
 		    if (!transform)
@@ -51,7 +51,7 @@ void ExtractRenderQueue(const ComponentPool<TransformComponent>&  transforms,
 		return;
 
 	texts->ForEach(
-	    [&](EntityId entity, const TextComponent& text)
+	    [&](DEPRECATED_EntityId entity, const TextComponent& text)
 	    {
 		    const auto* transform = transforms.Get(entity);
 		    if (!transform)

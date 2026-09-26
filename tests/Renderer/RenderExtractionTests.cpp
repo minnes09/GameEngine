@@ -12,8 +12,8 @@
 // Uses local pools, not the EntityManager singleton, so tests are independent.
 namespace
 {
-constexpr EntityId kFirst{ 1 };
-constexpr EntityId kSecond{ 2 };
+constexpr DEPRECATED_EntityId kFirst{ 1 };
+constexpr DEPRECATED_EntityId kSecond{ 2 };
 
 struct Pools
 {
@@ -160,7 +160,7 @@ TEST(RenderExtraction, EntityManagerOverloadDrawsTextWithoutRenderablePool)
 	auto& entities = EntityManager::Get();
 	if (entities.GetPool<RenderableComponent>())
 		GTEST_SKIP() << "Renderable pool already exists in the EntityManager singleton";
-	const EntityId entity = entities.CreateEntity();
+	const DEPRECATED_EntityId entity = entities.CreateEntity();
 	entities.AddComponent(entity, TransformComponent{ .position = { 3.f, 4.f } });
 	entities.AddComponent(entity, TextComponent{ .text = "RenderExtractionTests.text-only" });
 
@@ -193,9 +193,9 @@ TEST(RenderExtraction, RepeatedFramesDoNotGrowQueue)
 	Pools pools;
 	for (std::uint32_t i = 0; i < 32; ++i)
 	{
-		pools.transforms.Add(EntityId{ i }, {});
-		pools.renderables.Add(EntityId{ i }, {});
-		pools.texts.Add(EntityId{ i }, { .text = "t" });
+		pools.transforms.Add(DEPRECATED_EntityId{ i }, {});
+		pools.renderables.Add(DEPRECATED_EntityId{ i }, {});
+		pools.texts.Add(DEPRECATED_EntityId{ i }, { .text = "t" });
 	}
 
 	RenderQueue queue;

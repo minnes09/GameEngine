@@ -1,6 +1,6 @@
-// Sandbox executable: a minimal scene to check the engine visually (window, loop, ECS, rendering).
+// Game executable: for now a minimal scene to check the engine visually (window, loop, ECS, rendering).
 
-#include "App/Aion.h"
+#include "App/Myrias.h"
 
 #include "ECS/Components/Renderable.h"
 #include "ECS/Components/Transform.h"
@@ -30,7 +30,7 @@ public:
 			return;
 
 		movementPool->ForEach(
-		    [&](EntityId entity, MovementComponent& movement)
+		    [&](DEPRECATED_EntityId entity, MovementComponent& movement)
 		    {
 			    auto* transform = entities.GetComponent<TransformComponent>(entity);
 			    if (!transform)
@@ -63,48 +63,38 @@ private:
 	sf::Vector2f bounds;
 };
 
-class Sandbox : public Aion
+// Creates the test scene: a static box and three bouncing balls.
+void CreateScene(EntityManager& entities)
 {
-public:
-	Sandbox()
-	    : Aion(kWindowWidth, kWindowHeight, "Aion Sandbox")
-	    , bounceSystem({ static_cast<float>(kWindowWidth), static_cast<float>(kWindowHeight) })
+	const DEPRECATED_EntityId box = entities.CreateEntity();
+	entities.AddComponent(box, TransformComponent{ { 590.f, 620.f } });
+	entities.AddComponent(box, RenderableComponent{ .shape = Shape::Rectangle,
+	                                                .size  = { 100.f, 20.f },
+	                                                .color = sf::Color(80, 160, 255) });
+
+	const sf::Color colors[] = { sf::Color::White, sf::Color(255, 120, 80), sf::Color(120, 220, 120) };
+	for (int i = 0; i < 3; ++i)
 	{
-		AddSystem(bounceSystem);
+		const DEPRECATED_EntityId ball = entities.CreateEntity();
+		entities.AddComponent(ball, TransformComponent{ { 200.f + 300.f * i, 150.f + 80.f * i } });
+		entities.AddComponent(ball, MovementComponent{ .velocity = { 220.f + 40.f * i, 180.f - 30.f * i } });
+		entities.AddComponent(ball, RenderableComponent{ .shape            = Shape::Circle,
+		                                                 .size             = { 24.f, 24.f },
+		                                                 .color            = colors[i],
+		                                                 .outlineColor     = sf::Color::Black,
+		                                                 .outlineThickness = 2.f });
 	}
-
-protected:
-	void OnStart() override
-	{
-		auto& entities = EntityManager::Get();
-
-		const EntityId box = entities.CreateEntity();
-		entities.AddComponent(box, TransformComponent{ { 590.f, 620.f } });
-		entities.AddComponent(box, RenderableComponent{ .shape = Shape::Rectangle,
-		                                                .size  = { 100.f, 20.f },
-		                                                .color = sf::Color(80, 160, 255) });
-
-		const sf::Color colors[] = { sf::Color::White, sf::Color(255, 120, 80), sf::Color(120, 220, 120) };
-		for (int i = 0; i < 3; ++i)
-		{
-			const EntityId ball = entities.CreateEntity();
-			entities.AddComponent(ball, TransformComponent{ { 200.f + 300.f * i, 150.f + 80.f * i } });
-			entities.AddComponent(ball, MovementComponent{ .velocity = { 220.f + 40.f * i, 180.f - 30.f * i } });
-			entities.AddComponent(ball, RenderableComponent{ .shape            = Shape::Circle,
-			                                                 .size             = { 24.f, 24.f },
-			                                                 .color            = colors[i],
-			                                                 .outlineColor     = sf::Color::Black,
-			                                                 .outlineThickness = 2.f });
-		}
-	}
-
-private:
-	BounceSystem bounceSystem;
-};
+}
 } // namespace
 
 int main()
 {
-	Sandbox sandbox;
-	return sandbox.Run();
+	Myrias engine({ .width = kWindowWidth, .height = kWindowHeight, .title = "Myrias Game" });
+
+	CreateScene(EntityManager::Get());
+
+	BounceSystem bounceSystem({ static_cast<float>(kWindowWidth), static_cast<float>(kWindowHeight) });
+	engine.AddSystem(bounceSystem);
+
+	return engine.Run();
 }

@@ -1,19 +1,19 @@
 #include "ECS/EntityManager.h"
 
-EntityId EntityManager::CreateEntity()
+DEPRECATED_EntityId EntityManager::CreateEntity()
 {
-	return EntityId{ nextId++ };
+	return DEPRECATED_EntityId{ nextId++ };
 }
 
-void EntityManager::DestroyEntity(EntityId entity)
+void EntityManager::DestroyEntity(DEPRECATED_EntityId entity)
 {
 	for (auto& [_, pool] : componentPools)
 		pool->RemoveEntity(entity);
 }
 
-EntityId EntityManager::CloneEntity(EntityId source)
+DEPRECATED_EntityId EntityManager::CloneEntity(DEPRECATED_EntityId source)
 {
-	const EntityId clone = CreateEntity();
+	const DEPRECATED_EntityId clone = CreateEntity();
 	for (auto& [_, pool] : componentPools)
 		pool->CopyComponent(source, clone);
 	return clone;

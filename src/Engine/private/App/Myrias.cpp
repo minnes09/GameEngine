@@ -1,4 +1,4 @@
-#include "App/Aion.h"
+#include "App/Myrias.h"
 
 #include "ECS/EntityManager.h"
 #include "ECS/Systems/System.h"
@@ -10,18 +10,16 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
-Aion::Aion(unsigned int width, unsigned int height, const std::string& title)
-    : window(std::make_unique<sf::RenderWindow>(sf::VideoMode({ width, height }), title))
+Myrias::Myrias(const MyriasConfig& config)
+    : window(std::make_unique<sf::RenderWindow>(sf::VideoMode({ config.width, config.height }), config.title))
     , renderer(std::make_unique<Renderer>(*window, AssetManager::Get()))
 {
 }
 
-Aion::~Aion() = default;
+Myrias::~Myrias() = default;
 
-int Aion::Run()
+int Myrias::Run()
 {
-	OnStart();
-
 	sf::Clock clock;
 	while (window->isOpen())
 	{
@@ -29,8 +27,6 @@ int Aion::Run()
 		{
 			if (event->is<sf::Event::Closed>())
 				window->close();
-			else
-				OnEvent(*event);
 		}
 
 		Update(clock.restart().asSeconds());
@@ -43,13 +39,13 @@ int Aion::Run()
 	return 0;
 }
 
-void Aion::Update(float deltaTime)
+void Myrias::Update(float deltaTime)
 {
 	for (ISystem* system : systems)
 		system->Update(deltaTime);
 }
 
-void Aion::Render(RenderQueue& queue)
+void Myrias::Render(RenderQueue& queue)
 {
 	ExtractRenderQueue(EntityManager::Get(), queue);
 }

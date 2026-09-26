@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ECS/ComponentPool.h"
-#include "ECS/EntityId.h"
+#include "ECS/DEPRECATED_EntityId.h"
 #include "ECS/IComponentPool.h"
 
 #include <cstdint>
@@ -29,18 +29,18 @@ public:
 		return instance;
 	}
 
-	EntityId CreateEntity();
-	EntityId CloneEntity(EntityId source);
-	void DestroyEntity(EntityId entity);
+	DEPRECATED_EntityId CreateEntity();
+	DEPRECATED_EntityId CloneEntity(DEPRECATED_EntityId source);
+	void DestroyEntity(DEPRECATED_EntityId entity);
 
 	template <typename T>
-	T& AddComponent(EntityId entity, T component = T{})
+	T& AddComponent(DEPRECATED_EntityId entity, T component = T{})
 	{
 		return getOrCreatePool<T>().Add(entity, std::move(component));
 	}
 
 	template <typename T>
-	T* GetComponent(EntityId entity)
+	T* GetComponent(DEPRECATED_EntityId entity)
 	{
 		if (auto* pool = getPool<T>())
 			return pool->Get(entity);
@@ -59,9 +59,9 @@ public:
 		const auto* pool = GetPool<T>();
 		if (!pool)
 			return;
-		std::vector<EntityId> ids;
-		pool->ForEach([&](EntityId id, const auto&) { ids.push_back(id); });
-		for (EntityId id : ids)
+		std::vector<DEPRECATED_EntityId> ids;
+		pool->ForEach([&](DEPRECATED_EntityId id, const auto&) { ids.push_back(id); });
+		for (DEPRECATED_EntityId id : ids)
 			DestroyEntity(id);
 	}
 

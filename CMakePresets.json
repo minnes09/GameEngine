@@ -21,12 +21,20 @@
       "inherits": "vs2026-x64-base",
       "binaryDir": "${sourceDir}/build/dev-clang",
       "toolset": { "value": "ClangCL" }
+    },
+    {
+      "name": "bench",
+      "displayName": "VS 2026 x64 (benchmarks)",
+      "inherits": "vs2026-x64-base",
+      "binaryDir": "${sourceDir}/build/bench",
+      "cacheVariables": { "MYRIAS_BUILD_BENCHMARKS": "ON" }
     }
   ],
   "buildPresets": [
     { "name": "dev",       "configurePreset": "dev",       "configuration": "Debug" },
     { "name": "release",   "configurePreset": "dev",       "configuration": "Release" },
-    { "name": "dev-clang", "configurePreset": "dev-clang", "configuration": "Debug" }
+    { "name": "dev-clang", "configurePreset": "dev-clang", "configuration": "Debug" },
+    { "name": "bench",     "configurePreset": "bench",     "configuration": "Release", "targets": ["MyriasBenchmarks"] }
   ],
   "testPresets": [
     {

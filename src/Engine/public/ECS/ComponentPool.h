@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ECS/EntityId.h"
+#include "ECS/DEPRECATED_EntityId.h"
 #include "ECS/IComponentPool.h"
 
 #include <unordered_map>
@@ -10,30 +10,30 @@ template <typename T>
 class ComponentPool : public IComponentPool
 {
 public:
-	T& Add(EntityId entity, T component)
+	T& Add(DEPRECATED_EntityId entity, T component)
 	{
 		auto [it, _] = components.try_emplace(entity, std::move(component));
 		return it->second;
 	}
 
-	T* Get(EntityId entity)
+	T* Get(DEPRECATED_EntityId entity)
 	{
 		auto it = components.find(entity);
 		return it != components.end() ? &it->second : nullptr;
 	}
 
-	const T* Get(EntityId entity) const
+	const T* Get(DEPRECATED_EntityId entity) const
 	{
 		auto it = components.find(entity);
 		return it != components.end() ? &it->second : nullptr;
 	}
 
-	void RemoveEntity(EntityId entity) override
+	void RemoveEntity(DEPRECATED_EntityId entity) override
 	{
 		components.erase(entity);
 	}
 
-	void CopyComponent(EntityId from, EntityId to) override
+	void CopyComponent(DEPRECATED_EntityId from, DEPRECATED_EntityId to) override
 	{
 		auto it = components.find(from);
 		if (it == components.end())
@@ -67,5 +67,5 @@ public:
 	}
 
 private:
-	std::unordered_map<EntityId, T> components;
+	std::unordered_map<DEPRECATED_EntityId, T> components;
 };

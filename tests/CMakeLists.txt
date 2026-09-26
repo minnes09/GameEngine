@@ -23,8 +23,9 @@ endforeach()
 
 file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
-add_executable(AionTests ${TEST_SOURCES})
-target_link_libraries(AionTests PRIVATE Aion GTest::gtest_main AionWarnings)
+add_executable(MyriasTests ${TEST_SOURCES})
+target_include_directories(MyriasTests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(MyriasTests PRIVATE Myrias GTest::gtest_main MyriasWarnings)
 
 include(GoogleTest)
-gtest_discover_tests(AionTests DISCOVERY_MODE PRE_TEST)
+gtest_discover_tests(MyriasTests DISCOVERY_MODE PRE_TEST)

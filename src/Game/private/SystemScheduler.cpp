@@ -51,7 +51,7 @@ float SystemScheduler::maxMovementSpeed() const
 
 	float maxSpeedSq = 0.f;
 	movementPool->ForEach(
-	    [&](EntityId, const MovementComponent& movement)
+	    [&](DEPRECATED_EntityId, const MovementComponent& movement)
 	    {
 		    const float speedSq = movement.velocity.x * movement.velocity.x
 		                        + movement.velocity.y * movement.velocity.y;
