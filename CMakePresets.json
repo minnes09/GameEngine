@@ -3,17 +3,30 @@
   "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
   "configurePresets": [
     {
-      "name": "dev",
-      "displayName": "VS 2026 x64",
+      "name": "vs2026-x64-base",
+      "hidden": true,
       "generator": "Visual Studio 18 2026",
       "architecture": "x64",
-      "binaryDir": "${sourceDir}/build/dev",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
+    },
+    {
+      "name": "dev",
+      "displayName": "VS 2026 x64",
+      "inherits": "vs2026-x64-base",
+      "binaryDir": "${sourceDir}/build/dev"
+    },
+    {
+      "name": "dev-clang",
+      "displayName": "VS 2026 x64 (clang-cl)",
+      "inherits": "vs2026-x64-base",
+      "binaryDir": "${sourceDir}/build/dev-clang",
+      "toolset": { "value": "ClangCL" }
     }
   ],
   "buildPresets": [
-    { "name": "dev",     "configurePreset": "dev", "configuration": "Debug" },
-    { "name": "release", "configurePreset": "dev", "configuration": "Release" }
+    { "name": "dev",       "configurePreset": "dev",       "configuration": "Debug" },
+    { "name": "release",   "configurePreset": "dev",       "configuration": "Release" },
+    { "name": "dev-clang", "configurePreset": "dev-clang", "configuration": "Debug" }
   ],
   "testPresets": [
     {
@@ -28,6 +41,13 @@
       "configurePreset": "dev",
       "configuration": "Release",
       "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "dev-clang",
+      "configurePreset": "dev-clang",
+      "configuration": "Debug",
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error" }
     }
   ]
 }

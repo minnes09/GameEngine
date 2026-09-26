@@ -21,10 +21,12 @@ find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System
              CONFIG PATHS "${CMAKE_CURRENT_SOURCE_DIR}/libs/SFML/lib/cmake/SFML" NO_DEFAULT_PATH)
 
 # Common warnings for every first-party target.
+# clang-cl (CXX_COMPILER_ID=Clang, CXX_COMPILER_FRONTEND_VARIANT=MSVC) takes MSVC-style flags,
+# not GNU-style ones, so branch on the frontend variant rather than the compiler id.
 add_library(AionWarnings INTERFACE)
 target_compile_options(AionWarnings INTERFACE
-    $<$<CXX_COMPILER_ID:MSVC>:/W4 /permissive- /Zc:__cplusplus /utf-8>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>)
+    $<$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>:/W4 /permissive- /Zc:__cplusplus /utf-8>
+    $<$<NOT:$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>:-Wall -Wextra -Wpedantic>)
 
 add_subdirectory(src/Engine)
 add_subdirectory(src/Game)
