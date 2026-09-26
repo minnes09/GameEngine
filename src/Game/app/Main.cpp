@@ -1,6 +1,6 @@
 // Sandbox executable: a minimal scene to check the engine visually (window, loop, ECS, rendering).
 
-#include "Game.h"
+#include "App/Aion.h"
 
 #include "ECS/Components/Renderable.h"
 #include "ECS/Components/Transform.h"
@@ -63,11 +63,11 @@ private:
 	sf::Vector2f bounds;
 };
 
-class Sandbox : public Game
+class Sandbox : public Aion
 {
 public:
 	Sandbox()
-	    : Game(kWindowWidth, kWindowHeight, "Aion Sandbox")
+	    : Aion(kWindowWidth, kWindowHeight, "Aion Sandbox")
 	    , bounceSystem({ static_cast<float>(kWindowWidth), static_cast<float>(kWindowHeight) })
 	{
 		AddSystem(bounceSystem);
