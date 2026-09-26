@@ -1,9 +1,9 @@
-#include "Systems/RenderSystem.h"
+#include "ECS/Systems/RenderSystem.h"
 
 #include "AssetManager.h"
-#include "Components/Renderable.h"
-#include "Components/Text.h"
-#include "Components/Transform.h"
+#include "ECS/Components/Renderable.h"
+#include "ECS/Components/Text.h"
+#include "ECS/Components/Transform.h"
 #include "ECS/EntityManager.h"
 
 #include <SFML/Graphics/CircleShape.hpp>
@@ -55,8 +55,8 @@ void RenderSystem::renderShapes(ComponentPool<TransformComponent>* transformPool
 
 		    const sf::Color drawColor = renderable.color;
 
-		    // Textured entities (e.g. the boss) draw as a sprite scaled to `size`, tinted by the
-		    // (possibly blinked) colour. Missing texture -> fall through to the shape.
+		    // Textured entities draw as a sprite scaled to `size`, tinted by its
+		    // colour. Missing texture -> fall through to the shape.
 		    if (renderable.textureId)
 		    {
 			    if (const sf::Texture* texture = AssetManager::Get().GetTexture(renderable.textureId))
@@ -98,7 +98,7 @@ void RenderSystem::renderTexts(ComponentPool<TransformComponent>* transformPool,
                                sf::RenderWindow& window)
 {
 	// Text pass: drawn after shapes/sprites so labels sit on top. Centered inside the entity's
-	// shape when it has one (the powerup glyph), otherwise on its position (floating pickup names).
+	// shape when it has one, otherwise on its position.
 	auto* textPool = EntityManager::Get().GetPool<TextComponent>();
 	if (!textPool)
 		return;

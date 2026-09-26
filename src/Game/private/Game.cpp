@@ -1,12 +1,12 @@
-#include "Game/Game.h"
+#include "Game.h"
 
-#include "Systems/System.h"
+#include "ECS/Systems/System.h"
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
 Game::Game(unsigned int width, unsigned int height, const std::string& title)
-    : m_window(sf::VideoMode({ width, height }), title)
+    : window(sf::VideoMode({ width, height }), title)
 {
 }
 
@@ -15,32 +15,32 @@ int Game::Run()
 	OnStart();
 
 	sf::Clock clock;
-	while (m_window.isOpen())
+	while (window.isOpen())
 	{
-		while (const auto event = m_window.pollEvent())
+		while (const auto event = window.pollEvent())
 		{
 			if (event->is<sf::Event::Closed>())
-				m_window.close();
+				window.close();
 			else
 				OnEvent(*event);
 		}
 
 		Update(clock.restart().asSeconds());
 
-		Render(m_window);
-		m_window.display();
+		Render(window);
+		window.display();
 	}
 	return 0;
 }
 
 void Game::Update(float deltaTime)
 {
-	for (ISystem* system : m_systems)
+	for (ISystem* system : systems)
 		system->Update(deltaTime);
 }
 
-void Game::Render(sf::RenderWindow& window)
+void Game::Render(sf::RenderWindow& target)
 {
-	window.clear();
-	m_render.Render(window);
+	target.clear();
+	renderSystem.Render(target);
 }

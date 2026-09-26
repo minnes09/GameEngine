@@ -10,7 +10,7 @@ class ISystem;
 class SystemScheduler
 {
 public:
-	SystemScheduler(std::vector<ISystem*> systems, float maxSubStepDistance);
+	SystemScheduler(std::vector<ISystem*> orderedSystems, float maxDistancePerStep);
 
 	void Step(float deltaTime);
 
@@ -18,6 +18,6 @@ private:
 	// Largest velocity magnitude across MovementComponents this frame; drives the substep count.
 	float maxMovementSpeed() const;
 
-	std::vector<ISystem*> m_systems;
-	float                 m_maxSubStepDistance;
+	std::vector<ISystem*> systems;
+	float                 maxSubStepDistance;
 };

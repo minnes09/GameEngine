@@ -69,8 +69,8 @@ private:
 	template <typename T>
 	ComponentPool<T>* getPool()
 	{
-		auto it = m_componentPools.find(std::type_index(typeid(T)));
-		if (it == m_componentPools.end())
+		auto it = componentPools.find(std::type_index(typeid(T)));
+		if (it == componentPools.end())
 			return nullptr;
 		return static_cast<ComponentPool<T>*>(it->second.get());
 	}
@@ -78,7 +78,7 @@ private:
 	template <typename T>
 	ComponentPool<T>& getOrCreatePool()
 	{
-		auto& slot = m_componentPools[std::type_index(typeid(T))];
+		auto& slot = componentPools[std::type_index(typeid(T))];
 		if (!slot)
 			slot = std::make_unique<ComponentPool<T>>();
 		return *static_cast<ComponentPool<T>*>(slot.get());
@@ -86,6 +86,6 @@ private:
 
 	EntityManager() = default;
 
-	ComponentPoolMap m_componentPools;
-	std::uint32_t    m_nextId = 0;
+	ComponentPoolMap componentPools;
+	std::uint32_t    nextId = 0;
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Systems/RenderSystem.h"
+#include "ECS/Systems/RenderSystem.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -25,18 +25,18 @@ public:
 
 	// Registers a system stepped by the default Update() in registration order. Non-owning:
 	// the systems are owned by the game. Ignored if the game overrides Update().
-	void AddSystem(ISystem& system) { m_systems.push_back(&system); }
+	void AddSystem(ISystem& system) { systems.push_back(&system); }
 
-	sf::RenderWindow& GetWindow() { return m_window; }
+	sf::RenderWindow& GetWindow() { return window; }
 
 protected:
 	virtual void OnStart() {}                             // setup: load assets, create entities, ...
 	virtual void Update(float deltaTime);                // default: step the registered systems
-	virtual void Render(sf::RenderWindow& window);       // default: clear + RenderSystem
-	virtual void OnEvent(const sf::Event& event) {}      // default: ignore (Close is handled by Run)
+	virtual void Render(sf::RenderWindow& target);       // default: clear + RenderSystem
+	virtual void OnEvent(const sf::Event& /*event*/) {}   // default: ignore (Close is handled by Run)
 
 private:
-	sf::RenderWindow      m_window;
-	std::vector<ISystem*> m_systems;
-	RenderSystem          m_render;
+	sf::RenderWindow      window;
+	std::vector<ISystem*> systems;
+	RenderSystem          renderSystem;
 };

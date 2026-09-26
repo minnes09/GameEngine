@@ -12,60 +12,60 @@ class ComponentPool : public IComponentPool
 public:
 	T& Add(EntityId entity, T component)
 	{
-		auto [it, _] = m_components.try_emplace(entity, std::move(component));
+		auto [it, _] = components.try_emplace(entity, std::move(component));
 		return it->second;
 	}
 
 	T* Get(EntityId entity)
 	{
-		auto it = m_components.find(entity);
-		return it != m_components.end() ? &it->second : nullptr;
+		auto it = components.find(entity);
+		return it != components.end() ? &it->second : nullptr;
 	}
 
 	const T* Get(EntityId entity) const
 	{
-		auto it = m_components.find(entity);
-		return it != m_components.end() ? &it->second : nullptr;
+		auto it = components.find(entity);
+		return it != components.end() ? &it->second : nullptr;
 	}
 
 	void RemoveEntity(EntityId entity) override
 	{
-		m_components.erase(entity);
+		components.erase(entity);
 	}
 
 	void CopyComponent(EntityId from, EntityId to) override
 	{
-		auto it = m_components.find(from);
-		if (it == m_components.end())
+		auto it = components.find(from);
+		if (it == components.end())
 			return;
 
 		T copy = it->second;
-		m_components[to] = std::move(copy);
+		components[to] = std::move(copy);
 	}
 
 	template <typename Callback>
 	void ForEach(Callback&& callback)
 	{
-		for (auto& [entity, component] : m_components)
+		for (auto& [entity, component] : components)
 			callback(entity, component);
 	}
 
 	template <typename Callback>
 	void ForEach(Callback&& callback) const
 	{
-		for (const auto& [entity, component] : m_components)
+		for (const auto& [entity, component] : components)
 			callback(entity, component);
 	}
 
-	auto begin()       { return m_components.begin(); }
-	auto end()         { return m_components.end(); }
-	auto begin() const { return m_components.begin(); }
-	auto end()   const { return m_components.end(); }
+	auto begin()       { return components.begin(); }
+	auto end()         { return components.end(); }
+	auto begin() const { return components.begin(); }
+	auto end()   const { return components.end(); }
 	int size() const
 	{
-		return static_cast<int>(m_components.size());
+		return static_cast<int>(components.size());
 	}
 
 private:
-	std::unordered_map<EntityId, T> m_components;
+	std::unordered_map<EntityId, T> components;
 };

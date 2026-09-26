@@ -31,6 +31,6 @@ public:
 private:
 	AssetManager() = default;
 
-	std::unordered_map<std::string, sf::Font>    m_fonts;
-	std::unordered_map<std::string, sf::Texture> m_textures;
+	std::unordered_map<std::string, sf::Font>    fonts;
+	std::unordered_map<std::string, sf::Texture> textures;
 };

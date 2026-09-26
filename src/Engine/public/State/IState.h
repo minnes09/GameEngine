@@ -24,6 +24,6 @@ public:
 	virtual bool IsTransparent() const { return false; }
 
 	// Colour the whole window (incl. fullscreen letterbox bars) is cleared to before this state draws.
-	// nullopt -> World keeps the level's background colour.
+	// nullopt -> the owner keeps its default clear colour.
 	virtual std::optional<sf::Color> ClearColor() const { return std::nullopt; }
 };

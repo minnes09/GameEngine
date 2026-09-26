@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Components/Shape.h"
+#include "ECS/Components/Shape.h"
 
 #include <SFML/System/Vector2.hpp>
 

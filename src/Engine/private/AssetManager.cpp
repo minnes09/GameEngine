@@ -11,13 +11,13 @@ bool AssetManager::LoadFont(const std::string& id, const std::string& filename)
 		std::cerr << "Failed to load font: " << filename << '\n';
 		return false;
 	}
-	m_fonts.emplace(id, std::move(font));
+	fonts.emplace(id, std::move(font));
 	return true;
 }
 
 const sf::Font& AssetManager::GetFont(const std::string& id) const
 {
-	return m_fonts.at(id);
+	return fonts.at(id);
 }
 
 bool AssetManager::LoadTexture(const std::string& id, const std::string& filename)
@@ -29,12 +29,12 @@ bool AssetManager::LoadTexture(const std::string& id, const std::string& filenam
 		return false;
 	}
 	texture.setSmooth(true);
-	m_textures.emplace(id, std::move(texture));
+	textures.emplace(id, std::move(texture));
 	return true;
 }
 
 const sf::Texture* AssetManager::GetTexture(const std::string& id) const
 {
-	const auto it = m_textures.find(id);
-	return it != m_textures.end() ? &it->second : nullptr;
+	const auto it = textures.find(id);
+	return it != textures.end() ? &it->second : nullptr;
 }

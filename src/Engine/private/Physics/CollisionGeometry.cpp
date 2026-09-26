@@ -1,6 +1,6 @@
-#include "Collision/CollisionGeometry.h"
+#include "Physics/CollisionGeometry.h"
 
-#include "Components/Shape.h"
+#include "ECS/Components/Shape.h"
 
 #include <algorithm>
 #include <cmath>
